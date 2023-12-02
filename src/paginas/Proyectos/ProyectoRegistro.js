@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {Link, useSubmit, Navigate} from 'react-router-dom';
+import {Link, Navigate} from 'react-router-dom';
 import APIInvoke from "../../utils/APIInvoke";
-import swal from "sweetalert";
 
 const ProyectoRegistro = () => {
     const [Usuario, setUsuario] = useState({

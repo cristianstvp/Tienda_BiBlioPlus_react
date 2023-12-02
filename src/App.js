@@ -16,7 +16,7 @@ function App() {
           <Route path="/" exact element={<Login/>}/>
           <Route path="/Registro" exact element={<Registro/>}/>
           <Route path="/home" exact element={<Home/>}/>
-          <Route path="/Proyectos-Admin" exact element={<ProyectosAdmin/>}/>
+          <Route path="/Proyectos-Admin/:id" exact element={<ProyectosAdmin/>}/>
           <Route path="/Proyectos-Registro" exact element={<ProyectoRegistro/>}/>
           <Route path="/Proyectos-editar/:idproyecto" exact element={<ProyectosEditar/>}/>
 

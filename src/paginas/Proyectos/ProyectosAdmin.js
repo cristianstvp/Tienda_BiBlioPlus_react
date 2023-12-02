@@ -4,32 +4,33 @@ import SidebarContainer from '../../componentes/SidebarContainer';
 import ContentHeader from '../../componentes/ContentHeader';
 import Footer from '../../componentes/Footer';
 import APIInvoke from '../../utils/APIInvoke';
-import swal from "sweetalert";
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useParams, useNavigate  } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const ProyectosAdmin = () => {
-    const [proyectos, setProyectos] = useState([]);
+    const { id } = useParams(); // Obtener la ID del libro de la URL
 
+    const [proyectos, setProyectos] = useState([]);
+    const Navigate = useNavigate();
     const cargarProyectos = async () => {
-        const response = await APIInvoke.invokeGET('/api/usuarios/list')
+        const response = await APIInvoke.invokeGET(`/api/libro/lista/${id}`)
         console.log(response);
         setProyectos(response);
     }
 
     useEffect(() => {
         cargarProyectos();
-    }, [])
+    }, [id])
 
-    const eliminarProyecto = async (e, idProyecto) => {
-        e.preventDefault();
-        const response = await APIInvoke.invokeDELETE(`/api/usuarios/${idProyecto}`);
-        console.log(response)
-        if (response.id == idProyecto) {
-            const msg = "El Usuario fue borrado exitosamente"
+    const decrementarNumero = async () => {
+        const nuevoNumero = proyectos.cantidadDisponible - 1;
+        // Realiza alguna lógica para enviar el nuevo número al backend y actualizarlo en la base de datos
+        if (nuevoNumero === 0 ) {
+            const msg = "No fue posible realizar esta accion";
             swal({
-                title: 'El usuario fue borrado',
+                title: 'No hay disponibilidad por el momento',
                 text: msg,
-                icon: 'success',
+                icon: 'error',
                 buttons: {
                     confirm: {
                         text: 'Ok',
@@ -40,9 +41,79 @@ const ProyectosAdmin = () => {
                     }
                 }
             });
-            cargarProyectos();
         } else {
-            const msg = "El usuario no fue borrado"
+            const data = {
+                libro:{
+                    idLibro:id,
+                    cantidadDisponible: nuevoNumero,
+                    anioPublicacion: proyectos.anioPublicacion,
+                    genero: proyectos.genero,
+                    titulo:proyectos.titulo
+                },
+                id_autor:proyectos.autorFK.idAutor
+            }
+            console.log(data)
+            const response = await APIInvoke.invokePUT(`/api/libro/`, data);
+            console.log(response);
+            {
+                const msg = "Se realizo el prestamo del libro";
+                swal({
+                    title: 'OK',
+                    text: msg,
+                    icon: 'success',
+                    buttons: {
+                        confirm: {
+                            text: 'Ok',
+                            value: true,
+                            visible: true,
+                            className: 'btn btn-danger',
+                            closeModal: true
+                        }
+                    }
+                });
+            }
+            Navigate('/home');
+        }
+        
+    };
+
+    const incrementarNumero = async () => {
+        const nuevoNumero = proyectos.cantidadDisponible + 1;
+        // Realiza alguna lógica para enviar el nuevo número al backend y actualizarlo en la base de datos
+        if (nuevoNumero>=0) {
+            const data = {
+                libro:{
+                    idLibro:id,
+                    cantidadDisponible: nuevoNumero,
+                    anioPublicacion: proyectos.anioPublicacion,
+                    genero: proyectos.genero,
+                    titulo:proyectos.titulo
+                },
+                id_autor:proyectos.autorFK.idAutor
+            }
+            console.log(data)
+            const response = await APIInvoke.invokePUT(`/api/libro/`, data);
+            console.log(response);
+            {
+                const msg = "Se regreso el libro";
+                swal({
+                    title: 'OK',
+                    text: msg,
+                    icon: 'success',
+                    buttons: {
+                        confirm: {
+                            text: 'Ok',
+                            value: true,
+                            visible: true,
+                            className: 'btn btn-danger',
+                            closeModal: true
+                        }
+                    }
+                });
+            }
+            Navigate('/home');
+        } else {
+            const msg = "No fue posible realizar esta accion";
             swal({
                 title: 'Error',
                 text: msg,
@@ -58,14 +129,15 @@ const ProyectosAdmin = () => {
                 }
             });
         }
-    }
-
+        
+    };
+    
     return (<div className="wrapper">
         <Navbar></Navbar>
         <SidebarContainer></SidebarContainer>
         <div className="content-wrapper">
             <ContentHeader
-                Titulo={'Listado Proyectos'}
+                Titulo={'Prestamo'}
                 breadcrumb1={'Inicio'}
                 breadcrumb2={'Dashboard'}
                 ruta={'/home'}
@@ -73,82 +145,56 @@ const ProyectosAdmin = () => {
             <section className="content">
                 <div className='container-fluid'>
                     <div className="card">
-                        <div className="card-header">
-                            <h3 className="card-title"><Link to={"/Proyectos-Registro"} className="btn btn-block btn-primary">Crear Usuario</Link></h3>
-                            <div className="card-tools">
-                                <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                    <i className="fas fa-minus" />
-                                </button>
-                                <button type="button" className="btn btn-tool" data-card-widget="remove" title="Remove">
-                                    <i className="fas fa-times" />
-                                </button>
+                            <div className="card-header">
+                                <h3 className="card-title">Libro</h3>{/**<Link to={"/Proyectos-Registro"} className="btn btn-block btn-primary">Crear Usuario</Link> */}
+                                <div className="card-tools">
+                                    <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i className="fas fa-minus" />
+                                    </button>
+                                    <button type="button" className="btn btn-tool" data-card-widget="remove" title="Remove">
+                                        <i className="fas fa-times" />
+                                    </button>
+                                </div>
                             </div>
-                        </div>
                         <div className="card-body">
-                            Start creating your amazing application!
+                            <p>ID del libro: {id}</p>
+                            <h2>{proyectos.titulo}</h2>
+                            <p>Autor: {proyectos.autorFK && proyectos.autorFK.nombre}</p>
+                            <p>Género: {proyectos.genero}</p>
+                            <p>Año de Publicación: {proyectos.anioPublicacion}</p>
+                            <p>Cantidad Disponible: {proyectos.cantidadDisponible}</p>
                         </div>
                         <div className="card-footer">
-                            Footer
+                            {proyectos.cantidadDisponible !== 0 ? (
+                                <p>Disponible para Prestar</p>
+                            ) : (
+                                <p>No hay disponibilidad</p>
+                            )}
                         </div>
                     </div>
 
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="card">
-                                <div className="card-header">
-                                    <h3 className="card-title">Responsive Hover Table</h3>
-                                    <div className="card-tools">
-                                        <div className="input-group input-group-sm" style={{ width: 150 }}>
-                                            <input type="text" name="table_search" className="form-control float-right" placeholder="Search" />
-                                            <div className="input-group-append">
-                                                <button type="submit" className="btn btn-default">
-                                                    <i className="fas fa-search" />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="card-body table-responsive p-0">
-                                    <table className="table table-hover text-nowrap">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th >Usuario</th>
-                                                <th>Tipo Documento</th>
-                                                <th>Numero Documento</th>
-                                                <th>Nombre</th>
-                                                <th>Email</th>
-                                                <th>Password</th>
-                                                <th>Opciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                proyectos.map(
-                                                    item =>
-                                                        <tr key={item.id}>
-                                                            <td>{item.id}</td>
-                                                            <td>{item.nombreUsuario}</td>
-                                                            <td>{item.idTipoDocumento.tipo}</td>
-                                                            <td>{item.numeroDocumento}</td>
-                                                            <td>{item.nombre}</td>
-                                                            <td>{item.email}</td>
-                                                            <td>{item.password}</td>
-                                                            <td>
-                                                                <Link to={`/Proyectos-editar/${item.id}@${item.nombreUsuario}@${item.idTipoDocumento.id_tipodocumento}@${item.numeroDocumento}@${item.nombre}@${item.email}@${item.password}`} className='btn btn-sm btn-primary'>Editar</Link>&nbsp;&nbsp;
-                                                                <button onClick={(e) => eliminarProyecto(e, item.id)} className='btn btn-sm btn-danger'>Borrar</button>
-                                                            </td>
-                                                        </tr>
-                                                )
-                                            }
-                                        </tbody>
-                                    </table>
+                </div>
+                <div className='container-fluid'>
+                    <div className="card">
+                            <div className="card-header">
+                                <h3 className="card-title">Acciones</h3>{/**<Link to={"/Proyectos-Registro"} className="btn btn-block btn-primary">Crear Usuario</Link> */}
+                                <div className="card-tools">
+                                    <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                        <i className="fas fa-minus" />
+                                    </button>
+                                    <button type="button" className="btn btn-tool" data-card-widget="remove" title="Remove">
+                                        <i className="fas fa-times" />
+                                    </button>
                                 </div>
                             </div>
+                        <div className="card-body">
+                            <button type='submit' className="btn btn-success" onClick={decrementarNumero}>Predir prestado</button>    
+                            &nbsp; &nbsp; &nbsp; &nbsp; 
+                            <Link to={"/home"} className="btn btn-info">regresar</Link>
+                            &nbsp; &nbsp; &nbsp; &nbsp; 
+                            <button type='submit' className="btn btn-success" onClick={incrementarNumero}>Regresar libro</button>    
                         </div>
                     </div>
-
-
 
                 </div>
             </section>
