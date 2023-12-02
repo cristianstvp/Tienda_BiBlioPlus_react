@@ -14,7 +14,7 @@ const Menu = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link to="/Proyectos-Admin" className="nav-link">
+          <Link to="/administracion-datos/" className="nav-link">
             <i className="nav-icon fas fa-edit" />
             <p>
               Admin
