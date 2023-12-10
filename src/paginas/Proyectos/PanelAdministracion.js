@@ -5,6 +5,7 @@ import ContentHeader from '../../componentes/ContentHeader';
 import Footer from '../../componentes/Footer';
 import APIInvoke from '../../utils/APIInvoke';
 import swal from "sweetalert";
+import { Link } from 'react-router-dom';
 
 const PanelAdministracion = () => {
     const [usuario, setUsuario] = useState([]);
@@ -14,6 +15,7 @@ const PanelAdministracion = () => {
 
     const cargarUsuario = async () => {
         const response = await APIInvoke.invokeGET('/api/usuario/lista')
+        console.log("Usuario");
         console.log(response);
         setUsuario(response);
     }
@@ -239,6 +241,8 @@ const PanelAdministracion = () => {
                                                 <th>Apellido</th>
                                                 <th>Nombre Usuario</th>
                                                 <th>contrasena</th>
+                                                <th>Admin</th>
+                                                <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -251,7 +255,9 @@ const PanelAdministracion = () => {
                                                             <td>{item.apellido}</td>
                                                             <td>{item.nombreUsuario}</td>
                                                             <td>{item.contrasena}</td>
+                                                            <td>{item.es_admin? 'Sí' : 'No'}</td>
                                                             <td>
+                                                                <Link to={`/Proyectos-editar/${item.usuarioID}`} className="btn btn-sm btn-success" >Editar</Link>&nbsp; &nbsp; &nbsp;
                                                                 <button onClick={(e) => eliminarUsuario(e, item.usuarioID)} className='btn btn-sm btn-danger'>Borrar</button>
                                                             </td>
                                                         </tr>

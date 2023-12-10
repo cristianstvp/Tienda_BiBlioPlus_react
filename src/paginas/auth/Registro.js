@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {Link, Navigate} from 'react-router-dom';
 import APIInvoke from "../../utils/APIInvoke";
+import swal from "sweetalert";
 
 
 const Registro = () => {
@@ -9,6 +10,7 @@ const Registro = () => {
     apellido : '',
     contrasena : '',
     nombreUsuario : '',
+    es_admin: false,
     confirmar:''
   })
 
@@ -23,6 +25,29 @@ const Registro = () => {
   const [redirectLogin, setRedirectLogin] = useState(false); // Nuevo estado para la redirección
 
   const crearCuenta = async() =>{
+    
+    if (Usuario.contrasena !== Usuario.confirmar) {
+      // Manejar el caso en que las contraseñas no coinciden
+      console.log("Las contraseñas no coinciden");
+      const msg = "Las contraseñas no coinciden";
+      swal({
+        title: 'Wrong',
+        text: msg,
+        icon: 'error',
+        buttons: {
+          confirm: {
+            text: 'Ok',
+            value: true,
+            visible: true,
+            className: 'btn btn-danger',
+            closeModal: true
+          }
+        }
+      });
+
+      return;
+    }
+    
     const data = {
       primerNombre: Usuario.primerNombre,
       apellido: Usuario.apellido,
@@ -30,8 +55,24 @@ const Registro = () => {
       nombreUsuario: Usuario.nombreUsuario
     }
     const response = await APIInvoke.invokePOST(`/api/usuario/`,data);
-    console.log(response);
     setRedirectLogin(true);
+
+    const msg = "Te damos la bienbenida";
+      swal({
+        title: 'Inicio Exitoso',
+        text: `${msg},  ${response.primerNombre}`,
+        icon: 'success',
+        buttons: {
+          confirm: {
+            text: 'Ok',
+            value: true,
+            visible: true,
+            className: 'btn btn-danger',
+            closeModal: true
+          }
+        }
+      });
+
   }
 
   const onSubmit = (e) =>{
@@ -142,7 +183,7 @@ const Registro = () => {
                   Registrarme
                 </button>
               </div>
-              <Link to={"/"} className="btn btn-block btn-danger">
+              <Link to={"/"} className="btn btn-block btn-warning">
                 Estoy Registrado
               </Link>
             </form>

@@ -1,42 +1,32 @@
-import React, { useState, useEffect } from 'react'
-import Navbar from '../../componentes/Navbar';
-import SidebarContainer from '../../componentes/SidebarContainer';
-import ContentHeader from '../../componentes/ContentHeader';
-import Footer from '../../componentes/Footer';
-import APIInvoke from '../../utils/APIInvoke';
-import swal from "sweetalert";
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import APIInvoke from '../../utils/APIInvoke';
+import swal from 'sweetalert';
 import { useNavigate, useParams } from 'react-router-dom';
+
 
 const ProyectosEditar = () => {
 
     const navigate = useNavigate();
-
     const { idproyecto } = useParams();
 
-    let arreglo = idproyecto.split('@');
-    const idUs = arreglo[0];
-    const NombreUs = arreglo[1];
-    const idTipoDocUs = arreglo[2];
-    const NumDocUs = arreglo[3];
-    const nombreCompletoUs = arreglo[4];
-    const emailUs = arreglo[5];
-    const passwordUs = arreglo[6];
+
+    const cargarUsuario = async () => {
+        const response = await APIInvoke.invokeGET(`/api/usuario/lista/${idproyecto}`)
+        setProyectos(response);
+    }
 
     const [proyectos, setProyectos] = useState({
-        idTipoDocumento: idTipoDocUs,
-        numeroDocumento: NumDocUs,
-        nombre: nombreCompletoUs,
-        password: passwordUs,
-        nombreUsuario: NombreUs,
-        email: emailUs
+        primerNombre: '',
+        apellido: '',
+        contrasena: '',
+        nombreUsuario: '',
+        es_admin: false
     });
 
-    const { idTipoDocumento, numeroDocumento, email, nombre, password, confirmar, nombreUsuario } = proyectos;
-
     useEffect(() => {
-        document.getElementById("nombre").focus();
-    }, [])
+        cargarUsuario();
+    }, [idproyecto])
 
     const onChange = (e) => {
         setProyectos(e.target.value);
@@ -50,23 +40,17 @@ const ProyectosEditar = () => {
     }
 
     const editarProyecto = async () => {
-        let arreglo = idproyecto.split('@');
-        const idProyecto = arreglo[0];
-
         const data = {
-            id:idProyecto,
-            idTipoDocumento: proyectos.idTipoDocumento,
-            numeroDocumento: proyectos.numeroDocumento,
-            nombre: proyectos.nombre,
-            password: proyectos.password,
+            usuarioID: parseInt(idproyecto),
+            primerNombre: proyectos.primerNombre,
+            apellido: proyectos.apellido,
+            contrasena: proyectos.contrasena,
             nombreUsuario: proyectos.nombreUsuario,
-            email: proyectos.email
+            es_admin: Boolean(proyectos.es_admin)
         }
-
-        const response = await APIInvoke.invokePUT(`/api/usuarios/`, data);
-        const idProyectoEditado = response.id;
-        console.log(response);
-        if (idProyectoEditado != idProyecto) {
+        const response = await APIInvoke.invokePUT(`/api/usuario/`, data);
+        const idProyectoEditado = response.usuarioID;
+        if (idProyectoEditado != idproyecto) {
             const msg = "No fue posible Actualizar el usuario";
             swal({
                 title: 'Actualizacion Fallida',
@@ -83,8 +67,8 @@ const ProyectosEditar = () => {
                 }
             });
         } else {
-            navigate('/Proyectos-Admin')
-            const msg = "Usuario Creado";
+            navigate('/administracion-datos')
+            const msg = "Usuario Editado";
             swal({
                 title: 'OK',
                 text: msg,
@@ -114,18 +98,6 @@ const ProyectosEditar = () => {
                     <div className="card-body register-card-body">
                         <p className="login-box-msg">Registro</p>
                         <form onSubmit={onSubmit}>
-                            <div className="input-group mb-3">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Nombre completo"
-                                    id="nombre"
-                                    name="nombre"
-                                    value={nombre}
-                                    onChange={onChange}
-                                    required
-                                />
-                            </div>
 
                             <div className="input-group mb-3">
                                 <input
@@ -134,36 +106,7 @@ const ProyectosEditar = () => {
                                     placeholder="Nombre de Usuario"
                                     id="nombreUsuario"
                                     name="nombreUsuario"
-                                    value={nombreUsuario}
-                                    onChange={onChange}
-                                    required
-                                />
-                            </div>
-
-                            <div className="input-group mb-3">
-                                <select
-                                    className="form-control"
-                                    value={idTipoDocumento}
-                                    id="idTipoDocumento"
-                                    name="idTipoDocumento"
-                                    onChange={onChange}
-                                    required
-                                >
-                                    <option value="">Selecciona un tipo de documento</option>
-                                    <option value="5">Cédula</option>
-                                    <option value="6">Tarjeta</option>
-                                    <option value="7">Pasaporte</option>
-                                </select>
-                            </div>
-
-                            <div className="input-group mb-3">
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    placeholder="Numero de documento"
-                                    id="numeroDocumento"
-                                    name="numeroDocumento"
-                                    value={numeroDocumento}
+                                    value={proyectos.nombreUsuario}
                                     onChange={onChange}
                                     required
                                 />
@@ -171,12 +114,12 @@ const ProyectosEditar = () => {
 
                             <div className="input-group mb-3">
                                 <input
-                                    type="email"
+                                    type="text"
                                     className="form-control"
-                                    placeholder="Email"
-                                    id="email"
-                                    name="email"
-                                    value={email}
+                                    placeholder="Primer Nombre"
+                                    id="primerNombre"
+                                    name="primerNombre"
+                                    value={proyectos.primerNombre}
                                     onChange={onChange}
                                     required
                                 />
@@ -184,22 +127,50 @@ const ProyectosEditar = () => {
 
                             <div className="input-group mb-3">
                                 <input
-                                    type="password"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Apellido"
+                                    id="apellido"
+                                    name="apellido"
+                                    value={proyectos.apellido}
+                                    onChange={onChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="input-group mb-3">
+                                <input
+                                    type="text"
                                     className="form-control"
                                     placeholder="Contraseña"
-                                    id="password"
-                                    name="password"
-                                    value={password}
+                                    id="contrasena"
+                                    name="contrasena"
+                                    value={proyectos.contrasena}
                                     onChange={onChange}
                                     required
                                 />
                             </div>
+
+                            <div className="input-group mb-3">
+                                <div className="form-check form-switch">
+                                    <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id="es_admin"
+                                        name="es_admin"
+                                        checked={proyectos.es_admin}
+                                        onChange={(e) => setProyectos({ ...proyectos, es_admin: e.target.checked })}
+                                    />
+                                    <label className="form-check-label" htmlFor="es_admin">¿Es administrador?</label>
+                                </div>
+                            </div>
+
                             <div className="social-auth-links text-center">
                                 <button type='submit' className="btn btn-block btn-primary">
-                                    Registrarme
+                                    Editar
                                 </button>
                             </div>
-                            <Link to={"/Proyectos-Admin"} className="btn btn-block btn-danger">
+                            <Link to={"/administracion-datos"} className="btn btn-block btn-secondary">
                                 Ya no quiero editar
                             </Link>
                         </form>

@@ -20,7 +20,6 @@ const Login = () => {
   }
 
   const onSubmit = (e) => {
-    console.log("onsubmit");
     e.preventDefault();
     iniciarSesion();
   }
@@ -47,9 +46,7 @@ const Login = () => {
         nombre_usuario: usuario.nombre_usuario,
         contrasena: usuario.contrasena
       }
-      console.log(data);
       const response = await APIInvoke.invokePOST(`/api/usuario/login`,data);
-      console.log(response);
       if (response.Mensaje != "Datos correctos" ) {
         const msg = "No fue posible iniciar secion. Revise los datos";
         swal({
@@ -71,7 +68,8 @@ const Login = () => {
         const datos = response;
 
         //guardamos los datos en el localstorage
-        localStorage.setItem('DatosUsuario', datos.Usuario)
+        console.log("datos subidos")
+        localStorage.setItem('DatosUsuario', JSON.stringify(datos.Usuario))
 
         const msg = "Bienvenido";
         swal({

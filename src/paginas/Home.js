@@ -50,7 +50,7 @@ const Home = () => {
               <i className="fa fa-bookmark" />
             </div>
             <Link
-              to={`/Proyectos-Admin/${libro.idLibro}`}
+              to={`/Prestamo/${libro.idLibro}`}
               className="small-box-footer"
             >
               Rentar Libro <i className="fas fa-arrow-circle-right" />

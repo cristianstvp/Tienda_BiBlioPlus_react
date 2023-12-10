@@ -38,6 +38,7 @@ Panel de administración de código abierto y tema de panel de control. Construi
 `npm install admin-lte@^3.2 --save`
 
 
+`npm install react-bootstrap bootstrap`
 
 
 
