@@ -29,14 +29,30 @@ const Prestamo = () => {
 
     useEffect(() => {
         cargarLibro();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id])
 
 
     const decrementarDisponibilidad = async () => {
-        const nuevoNumero = Libro.cantidadDisponible - 1;
+        
         // Realiza alguna lógica para enviar el nuevo número al backend y actualizarlo en la base de datos
-        if (nuevoNumero === 0) {
+        if (Libro.cantidadDisponible > 0) {
+            const nuevoNumero = Libro.cantidadDisponible - 1;
+            const data = {
+                libro: {
+                    idLibro: id,
+                    cantidadDisponible: nuevoNumero,
+                    anioPublicacion: Libro.anioPublicacion,
+                    genero: Libro.genero,
+                    titulo: Libro.titulo
+                },
+                id_autor: Libro.autorFK.idAutor
+            }
+            const response = await APIInvoke.invokePUT(`/api/libro/`, data);
+
+            PrestamoRealizado(response);
+            Navigate('/home');
+        } else {
             const msg = "No fue posible realizar esta accion";
             swal({
                 title: 'No hay disponibilidad por el momento',
@@ -52,22 +68,6 @@ const Prestamo = () => {
                     }
                 }
             });
-        } else {
-            const data = {
-                libro: {
-                    idLibro: id,
-                    cantidadDisponible: nuevoNumero,
-                    anioPublicacion: Libro.anioPublicacion,
-                    genero: Libro.genero,
-                    titulo: Libro.titulo
-                },
-                id_autor: Libro.autorFK.idAutor
-            }
-
-            const response = await APIInvoke.invokePUT(`/api/libro/`, data);
-
-            PrestamoRealizado(response);
-            Navigate('/home');
         }
     };
 
@@ -126,78 +126,98 @@ const Prestamo = () => {
     };
 
     const incrementarDisponibilidad = async () => {
-
-        const responseExistePrestamo = await APIInvoke.invokeGET(`/api/prestamo/lista/${parseInt(codigoPrestamo)}`)
-        console.log(responseExistePrestamo)
-        if (responseExistePrestamo !== null) {
-            const responseBorrarPrestam = await APIInvoke.invokeDELETE(`/api/prestamo/${parseInt(codigoPrestamo)}`)
-            if (responseExistePrestamo.idPrestamo === responseBorrarPrestam.idPrestamo) {
-
-                //borrar prestamo
-                const msg = "Se Regreso el libro correctamente";
-                swal({
-                    title: 'Prestamo Realizado',
-                    text: msg,
-                    icon: 'success',
-                    buttons: {
-                        confirm: {
-                            text: 'Ok',
-                            value: true,
-                            visible: true,
-                            className: 'btn btn-danger',
-                            closeModal: true
-                        }
-                    }
-                });
-
-                //Aumentar la cantidad disponible
-                const nuevoNumero = Libro.cantidadDisponible + 1;
-                const data = {
-                    libro: {
-                        idLibro: id,
-                        cantidadDisponible: nuevoNumero,
-                        anioPublicacion: Libro.anioPublicacion,
-                        genero: Libro.genero,
-                        titulo: Libro.titulo
-                    },
-                    id_autor: Libro.autorFK.idAutor
-                }
-                // eslint-disable-next-line no-unused-vars
-                const responseLibro = await APIInvoke.invokePUT(`/api/libro/`, data);
-                
-                Navigate('/home');
-
-            } else {
-                const msg = "no se pudo eliminar el prestamo";
-                swal({
-                    title: 'Prestamo No Eliminado',
-                    text: msg,
-                    icon: 'error',
-                    buttons: {
-                        confirm: {
-                            text: 'Ok',
-                            value: true,
-                            visible: true,
-                            className: 'btn btn-danger',
-                            closeModal: true
-                        }
-                    }
-                });
+        try {
+            if(codigoPrestamo === null){
+                throw new Error('Prestamo no encontrado');
             }
-        } else {
-            <Modal onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Error</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <p>No se encontro El codigo </p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cerrar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            const responseExistePrestamo = await APIInvoke.invokeGET(`/api/prestamo/lista/${parseInt(codigoPrestamo)}`)
+            if (responseExistePrestamo !== null) {
+                const responseBorrarPrestam = await APIInvoke.invokeDELETE(`/api/prestamo/${parseInt(codigoPrestamo)}`)
+                if (responseExistePrestamo.idPrestamo === responseBorrarPrestam.idPrestamo) {
+
+                    //borrar prestamo
+                    const msg = "Se Regreso el libro correctamente";
+                    swal({
+                        title: 'Prestamo Borrado',
+                        text: msg,
+                        icon: 'success',
+                        buttons: {
+                            confirm: {
+                                text: 'Ok',
+                                value: true,
+                                visible: true,
+                                className: 'btn btn-danger',
+                                closeModal: true
+                            }
+                        }
+                    });
+
+                    //Aumentar la cantidad disponible
+                    const nuevoNumero = Libro.cantidadDisponible + 1;
+                    const data = {
+                        libro: {
+                            idLibro: id,
+                            cantidadDisponible: nuevoNumero,
+                            anioPublicacion: Libro.anioPublicacion,
+                            genero: Libro.genero,
+                            titulo: Libro.titulo
+                        },
+                        id_autor: Libro.autorFK.idAutor
+                    }
+                    // eslint-disable-next-line no-unused-vars
+                    const responseLibro = await APIInvoke.invokePUT(`/api/libro/`, data);
+
+                    Navigate('/home');
+
+                } else {
+                    const msg = "no se pudo eliminar el prestamo";
+                    swal({
+                        title: 'Prestamo No Eliminado',
+                        text: msg,
+                        icon: 'error',
+                        buttons: {
+                            confirm: {
+                                text: 'Ok',
+                                value: true,
+                                visible: true,
+                                className: 'btn btn-danger',
+                                closeModal: true
+                            }
+                        }
+                    });
+                }
+            } else {
+                <Modal onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Error</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>No se encontro El codigo </p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Cerrar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            }
+        }
+        catch (error) {
+            const msg = "No existe este usuario";
+            swal({
+                title: 'Prestamo no encontrado',
+                text: msg,
+                icon: 'error',
+                buttons: {
+                    confirm: {
+                        text: 'Ok',
+                        value: true,
+                        visible: true,
+                        className: 'btn btn-danger',
+                        closeModal: true
+                    }
+                }
+            });
         }
     };
 

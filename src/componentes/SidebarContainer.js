@@ -4,6 +4,9 @@ import Menu from "./Menu";
 import Logo from '../../node_modules/admin-lte/dist/img/AdminLTELogo.png'
 
 const SidebarContainer = () => {
+  const datosUsuario = localStorage.getItem('DatosUsuario');
+  const usuario = JSON.parse(datosUsuario);
+
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       <Link to={"/home"} className="brand-link">
@@ -19,7 +22,7 @@ const SidebarContainer = () => {
         <div className="user-panel mt-3 pb-3 mb-3 d-flex">
           <div className="info">
             <Link to={"/home"} className="d-block">
-              Menu Principal
+              Bienvenido {usuario.nombreUsuario}
             </Link>
           </div>
         </div>
