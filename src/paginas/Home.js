@@ -3,7 +3,7 @@ import Navbar from "../componentes/Navbar";
 import SidebarContainer from "../componentes/SidebarContainer";
 import ContentHeader from "../componentes/ContentHeader";
 import Footer from "../componentes/Footer";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import APIInvoke from "../utils/APIInvoke";
 import { Button, Modal } from "react-bootstrap";
 import swal from "sweetalert";
