@@ -30,7 +30,8 @@ const ProyectoRegistro = () => {
           numeroDocumento: Usuario.numeroDocumento,
           nombreUsuario: Usuario.nombreUsuario,
           email: Usuario.email,
-          password: Usuario.password
+          password: Usuario.password,
+          es_admin:false
         }
         const response = await APIInvoke.invokePOST(`/api/usuarios/`,data);
         console.log(response);

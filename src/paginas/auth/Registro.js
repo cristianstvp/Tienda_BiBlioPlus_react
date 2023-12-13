@@ -53,7 +53,8 @@ const Registro = () => {
       primerNombre: Usuario.primerNombre,
       apellido: Usuario.apellido,
       contrasena: Usuario.contrasena,
-      nombreUsuario: Usuario.nombreUsuario
+      nombreUsuario: Usuario.nombreUsuario,
+      es_admin:false
     }
     const response = await APIInvoke.invokePOST(`/api/usuario/`,data);
     setRedirectLogin(true);
