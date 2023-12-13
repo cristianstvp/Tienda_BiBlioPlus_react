@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from'react-router-dom';
 import APIInvoke from "../../utils/APIInvoke";
 import swal from "sweetalert";
+import imagen from "../../images/fondo.png"
+import logo from "../../images/logo-removebg-preview.png"
 
 
 const Login = () => {
@@ -95,18 +97,32 @@ const Login = () => {
     }
   }
 
+  const loginContainerStyle = {
+    backgroundImage: `url(${imagen})`,
+    backgroundSize: 'cover',
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
+  
+
+    
   return (
-    <div className="hold-transition login-page">
+    <div style={loginContainerStyle}>
       <div className="login-box">
         <div className="login-logo">
-          <Link to={"#"}><b>Iniciar</b>Secion</Link>
+        <Link to={"#"} className="font-weight-bold text-dark"></Link>
+
         </div>
         <div className="card">
-          <div className="card-body login-card-body">
-            <p className="login-box-msg">Bienvenido</p>
+          <div className="card-body login-card-body" style={{ backgroundColor: '#FFF5C5' }}>
+          <img src={logo} alt="Logo" className="mb-4 mx-auto d-block" />
+
+            <p className="font-weight-bold text-dark text-center">Biblio Plus</p>
 
             <form onSubmit={onSubmit}>
-              <div className="input-group mb-3">
+              <div className="input-group mb-3" >
                 <input
                   type="text"
                   className="form-control"

@@ -209,7 +209,7 @@ const PanelAdministracion = () => {
     return (<div className="wrapper">
         <Navbar></Navbar>
         <SidebarContainer></SidebarContainer>
-        <div className="content-wrapper">
+        <div className="content-wrapper" style={{ backgroundColor: '#FAD4F8' }}>
             <ContentHeader
                 Titulo={'Administracion de Tablas'}
                 breadcrumb1={'Inicio'}
@@ -221,7 +221,7 @@ const PanelAdministracion = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="card">
-                                <div className="card-header">
+                                <div className="card-header" style={{ backgroundColor: '#DAFDFF' }}>
                                     <h3 className="card-title">Tabla de Usuarios</h3>
                                     <div className="card-tools">
                                         <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -233,7 +233,7 @@ const PanelAdministracion = () => {
                                     </div>
                                 </div>
                                 <div className="card-body table-responsive p-0">
-                                    <table className="table table-hover text-nowrap">
+                                    <table className="table table-hover text-nowrap"style={{ backgroundColor: '#DAFDFF' }}>
                                         <thead>
                                             <tr>
                                                 <th>usuario ID</th>
@@ -273,7 +273,7 @@ const PanelAdministracion = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="card">
-                                <div className="card-header">
+                                <div className="card-header" style={{ backgroundColor: '#D4FAE6' }}>
                                     <h3 className="card-title">Tabla de Autores</h3>
                                     <div className="card-tools">
                                         <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -285,7 +285,7 @@ const PanelAdministracion = () => {
                                     </div>
                                 </div>
                                 <div className="card-body table-responsive p-0">
-                                    <table className="table table-hover text-nowrap">
+                                    <table className="table table-hover text-nowrap" style={{ backgroundColor: '#D4FAE6' }}>
                                         <thead>
                                             <tr>
                                                 <th>Autor ID</th>
@@ -304,6 +304,7 @@ const PanelAdministracion = () => {
                                                             <td>{item.nacionalidad}</td>
                                                             <td>{item.fechaNacimiento}</td>
                                                             <td>
+                                                                <Link to={`/Proyectos-editar/${item.usuarioID}`} className="btn btn-sm btn-success" >Editar</Link>&nbsp; &nbsp; &nbsp;
                                                                 <button onClick={(e) => eliminarAutor(e, item.idAutor)} className='btn btn-sm btn-danger'>Borrar</button>
                                                             </td>
                                                         </tr>
@@ -319,7 +320,7 @@ const PanelAdministracion = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="card">
-                                <div className="card-header">
+                                <div className="card-header" style={{ backgroundColor: '#DFD4FA' }}>
                                     <h3 className="card-title">Tabla de Libros</h3>
                                     <div className="card-tools">
                                         <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -331,7 +332,7 @@ const PanelAdministracion = () => {
                                     </div>
                                 </div>
                                 <div className="card-body table-responsive p-0">
-                                    <table className="table table-hover text-nowrap">
+                                    <table className="table table-hover text-nowrap" style={{ backgroundColor: '#DFD4FA' }}>
                                         <thead>
                                             <tr>
                                                 <th>Libro ID</th>
@@ -354,6 +355,7 @@ const PanelAdministracion = () => {
                                                             <td>{item.anioPublicacion}</td>
                                                             <td>{item.cantidadDisponible}</td>
                                                             <td>
+                                                                <Link to={`/Proyectos-editar/${item.usuarioID}`} className="btn btn-sm btn-success" >Editar</Link>&nbsp; &nbsp; &nbsp;
                                                                 <button onClick={(e) => eliminarLibro(e, item.idLibro)} className='btn btn-sm btn-danger'>Borrar</button>
                                                             </td>
                                                         </tr>
@@ -369,7 +371,7 @@ const PanelAdministracion = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="card">
-                                <div className="card-header">
+                                <div className="card-header"style={{ backgroundColor: '#FAD4D4' }}>
                                     <h3 className="card-title">Tabla de Prestamos</h3>
                                     <div className="card-tools">
                                         <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -381,7 +383,7 @@ const PanelAdministracion = () => {
                                     </div>
                                 </div>
                                 <div className="card-body table-responsive p-0">
-                                    <table className="table table-hover text-nowrap">
+                                    <table className="table table-hover text-nowrap" style={{ backgroundColor: '#FAD4D4' }}>
                                         <thead>
                                             <tr>
                                                 <th>Prestamo ID</th>
@@ -402,6 +404,7 @@ const PanelAdministracion = () => {
                                                             <td>{item.fechaPrestamo}</td>
                                                             <td>{item.fechaDevolucion}</td>
                                                             <td>
+                                                                <Link to={`/Proyectos-editar/${item.usuarioID}`} className="btn btn-sm btn-success" >Editar</Link>&nbsp; &nbsp; &nbsp;
                                                                 <button onClick={(e) => eliminarPrestamo(e, item.idPrestamo)} className='btn btn-sm btn-danger'>Borrar</button>
                                                             </td>
                                                         </tr>

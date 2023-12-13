@@ -227,103 +227,142 @@ const Prestamo = () => {
         handleClose();
         incrementarDisponibilidad();
     };
+
+    
+
     return (
-
-        <div className="wrapper">
-
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Ingresa el código del préstamo</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <input
-                        type="text"
-                        placeholder="Código de préstamo"
-                        value={codigoPrestamo}
-                        onChange={(e) => setCodigoPrestamo(e.target.value)}
-                        className="form-control"
-                    />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cancelar
-                    </Button>
-                    <Button variant="primary" onClick={handleGuardar}>
-                        Guardar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-            <Navbar></Navbar>
-            <SidebarContainer></SidebarContainer>
-            <div className="content-wrapper">
-                <ContentHeader
-                    Titulo={'Prestamo'}
-                    breadcrumb1={'Inicio'}
-                    breadcrumb2={'Dashboard'}
-                    ruta={'/home'}
-                />
-                <section className="content">
-                    <div className='container-fluid'>
-                        <div className="card">
-                            <div className="card-header">
-                                <h3 className="card-title">Libro</h3>{/**<Link to={"/Proyectos-Registro"} className="btn btn-block btn-primary">Crear Usuario</Link> */}
-                                <div className="card-tools">
-                                    <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                        <i className="fas fa-minus" />
-                                    </button>
-                                    <button type="button" className="btn btn-tool" data-card-widget="remove" title="Remove">
-                                        <i className="fas fa-times" />
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="card-body">
-                                <p>ID del libro: {id}</p>
-                                <h2>{Libro.titulo}</h2>
-                                <p>Autor: {Libro.autorFK && Libro.autorFK.nombre}</p>
-                                <p>Género: {Libro.genero}</p>
-                                <p>Año de Publicación: {Libro.anioPublicacion}</p>
-                                <p>Cantidad Disponible: {Libro.cantidadDisponible}</p>
-                            </div>
-                            <div className="card-footer">
-                                {Libro.cantidadDisponible !== 0 ? (
-                                    <p>Disponible para Prestar</p>
-                                ) : (
-                                    <p>No hay disponibilidad</p>
-                                )}
-                            </div>
-                        </div>
-
+        
+        <div className="wrapper" style={{ backgroundColor: '#767FA7' }}>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Ingresa el código del préstamo</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <input
+                type="text"
+                placeholder="Código de préstamo"
+                value={codigoPrestamo}
+                onChange={(e) => setCodigoPrestamo(e.target.value)}
+                className="form-control"
+              />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Cancelar
+              </Button>
+              <Button variant="primary" onClick={handleGuardar}>
+                Guardar
+              </Button>
+            </Modal.Footer>
+          </Modal>
+      
+          <Navbar style={{ backgroundColor: '#767FA7' }}></Navbar>
+          <SidebarContainer style={{ backgroundColor: '#767FA7' }}></SidebarContainer>
+          <div className="content-wrapper" style={{ backgroundColor: '#C2D4DB' }}>
+            <ContentHeader
+              Titulo={'Prestamo'}
+              breadcrumb1={'Inicio'}
+              breadcrumb2={'Dashboard'}
+              ruta={'/home'}
+              style={{ color: '#fff' }} // Cambia el color del texto si es necesario
+            />
+            <section className="content">
+              <div className="container-fluid">
+                <div className="card" style={{ backgroundColor: '#3FCADD' }}>
+                  <div className="card-header">
+                    <h3 className="card-title">Libro</h3>
+                    <div className="card-tools">
+                      <button
+                        type="button"
+                        className="btn btn-tool"
+                        data-card-widget="collapse"
+                        title="Collapse"
+                      >
+                        <i className="fas fa-minus" />
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-tool"
+                        data-card-widget="remove"
+                        title="Remove"
+                      >
+                        <i className="fas fa-times" />
+                      </button>
                     </div>
-                    <div className='container-fluid'>
-                        <div className="card">
-                            <div className="card-header">
-                                <h3 className="card-title">Acciones</h3>{/**<Link to={"/Proyectos-Registro"} className="btn btn-block btn-primary">Crear Usuario</Link> */}
-                                <div className="card-tools">
-                                    <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                        <i className="fas fa-minus" />
-                                    </button>
-                                    <button type="button" className="btn btn-tool" data-card-widget="remove" title="Remove">
-                                        <i className="fas fa-times" />
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="card-body">
-                                <button type='submit' className="btn btn-success" onClick={decrementarDisponibilidad}>Predir prestado</button>
-                                &nbsp; &nbsp; &nbsp; &nbsp;
-                                <Link to={"/home"} className="btn btn-info">regresar</Link>
-                                &nbsp; &nbsp; &nbsp; &nbsp;
-                                <button type='submit' className="btn btn-success" onClick={handleShow}>Regresar libro</button>
-                            </div>
-                        </div>
-
+                  </div>
+                  <div className="card-body"style={{ backgroundColor: '#F9F3DC' }} >
+                    <p>ID del libro: {id}</p>
+                    <h2>{Libro.titulo}</h2>
+                    <p>Autor: {Libro.autorFK && Libro.autorFK.nombre}</p>
+                    <p>Género: {Libro.genero}</p>
+                    <p>Año de Publicación: {Libro.anioPublicacion}</p>
+                    <p>Cantidad Disponible: {Libro.cantidadDisponible}</p>
+                  </div>
+                  <div className="card-footer">
+                    {Libro.cantidadDisponible !== 0 ? (
+                      <p>Disponible para Prestar</p>
+                    ) : (
+                      <p>No hay disponibilidad</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="container-fluid">
+                <div className="card" style={{ backgroundColor: '#F9F3DC' }}>
+                  <div className="card-header">
+                    <h3 className="card-title">Acciones</h3>
+                    <div className="card-tools">
+                      <button
+                        type="button"
+                        className="btn btn-tool"
+                        data-card-widget="collapse"
+                        title="Collapse"
+                      >
+                        <i className="fas fa-minus" />
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-tool"
+                        data-card-widget="remove"
+                        title="Remove"
+                      >
+                        <i className="fas fa-times" />
+                      </button>
                     </div>
-                </section>
-            </div>
-            <Footer></Footer>
-
-
-        </div>);
+                  </div>
+                  <div className="card-body">
+                    <button
+                      type="submit"
+                      className="btn btn-success"
+                      onClick={decrementarDisponibilidad}
+                    >
+                      Pedir prestado
+                    </button>
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <Link
+                      to={"/home"}
+                      className="btn btn-info"
+                      style={{ color: '#fff' }} // Cambia el color del texto si es necesario
+                    >
+                      Regresar
+                    </Link>
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    <button
+                      type="submit"
+                      className="btn btn-success"
+                      onClick={handleShow}
+                    >
+                      Regresar libro
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <Footer style={{ backgroundColor: '#767FA7' }}></Footer>
+        </div>
+      );
+      
 };
 
 export default Prestamo;

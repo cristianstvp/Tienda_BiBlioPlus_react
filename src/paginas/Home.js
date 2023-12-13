@@ -7,6 +7,8 @@ import { Link, Navigate } from "react-router-dom";
 import APIInvoke from "../utils/APIInvoke";
 import { Button, Modal } from "react-bootstrap";
 import swal from "sweetalert";
+import fondoHome from "../images/fondoHome.png"
+
 
 const Home = () => {
   const [proyectos, setProyectos] = useState([]);
@@ -174,67 +176,89 @@ const Home = () => {
     handleClose();
     incrementarDisponibilidad();
   };
-  return (
-    <div className="wrapper">
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Ingresa el código del préstamo</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <input
-            type="text"
-            placeholder="Código de préstamo"
-            value={codigoPrestamo}
-            onChange={(e) => setCodigoPrestamo(e.target.value)}
-            className="form-control"
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancelar
-          </Button>
-          <Button variant="primary" onClick={handleGuardar}>
-            Guardar
-          </Button>
-        </Modal.Footer>
-      </Modal>
 
-      <Navbar></Navbar>
-      <SidebarContainer></SidebarContainer>
-      <div className="content-wrapper">
-        <ContentHeader
-          Titulo={"Dashboard"}
-          breadcrumb1={"Inicio"}
-          breadcrumb2={"Dashboard"}
-          ruta={"/home"}
+  const HomeContainerStyle = {
+    backgroundImage: `url(${fondoHome})`,
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    minHeight: '290px', // Altura exacta de la imagen
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
+  
+  
+
+  return (
+    <>
+  <div className="wrapper">
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Ingresa el código del préstamo</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <input
+          type="text"
+          placeholder="Código de préstamo"
+          value={codigoPrestamo}
+          onChange={(e) => setCodigoPrestamo(e.target.value)}
+          className="form-control"
         />
-        <section className="content">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-lg-3 col-6">
-                <div className="small-box bg-info">
-                  <div className="inner">
-                    <h3>Libro</h3>
-                    <p>&nbsp;</p>
-                  </div>
-                  <div className="icon">
-                    <i className="nav-icon fas fa-edit" />
-                  </div>
-                  <Link onClick={handleShow} className="small-box-footer">
-                    regresar Libro <i className="fas fa-arrow-circle-right" />
-                  </Link>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Cancelar
+        </Button>
+        <Button variant="primary" onClick={handleGuardar}>
+          Guardar
+        </Button>
+      </Modal.Footer>
+    </Modal>
+
+    <Navbar style={{ backgroundColor: '#767FA7' }}></Navbar>
+    <SidebarContainer style={{ backgroundColor: '#767FA7' }}></SidebarContainer>
+    <div className="content-wrapper" style={{ backgroundColor: '#767FA7' }}>
+      <div style={HomeContainerStyle}></div>
+      <ContentHeader
+        Titulo={""}
+        breadcrumb1={"Inicio"}
+        breadcrumb2={"Dashboard"}
+        ruta={"/home"}
+      />
+      <section className="content">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-lg-3 col-6">
+              <div className="small-box bg-info">
+                <div className="inner">
+                  <h3>Libro</h3>
+                  <p>&nbsp;</p>
                 </div>
+                <div className="icon">
+                  <i className="nav-icon fas fa-edit" />
+                </div>
+                <Link
+                  onClick={handleShow}
+                  className="small-box-footer"
+                  style={{ color: '#fff' }} // Cambia el color del texto si es necesario
+                >
+                  regresar Libro <i className="fas fa-arrow-circle-right" />
+                </Link>
               </div>
             </div>
-            <div className="row">
-              <div className="col-12">{filasDeLibros}</div>
-            </div>
           </div>
-        </section>
-      </div>
-      <Footer></Footer>
+          <div className="row" >
+            <div className="col-12" >{filasDeLibros}</div>
+          </div>
+        </div>
+      </section>
     </div>
+    <Footer style={{ backgroundColor: '#767FA7' }}></Footer>
+  </div>
+</>
   );
+  
 };
 
 export default Home;

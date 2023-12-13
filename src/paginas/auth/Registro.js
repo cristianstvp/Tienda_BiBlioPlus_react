@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import {Link, Navigate} from 'react-router-dom';
 import APIInvoke from "../../utils/APIInvoke";
 import swal from "sweetalert";
-
+import fondoregistro from '../../images/fondoregistro.png'
+import logo from '../../images/logo-removebg-preview.png'
 
 const Registro = () => {
   const [Usuario, setUsuario] = useState({
@@ -88,17 +89,30 @@ const Registro = () => {
     return <Navigate to="/" />;
   }
 
+  const RegistroContainerStyle = {
+    backgroundImage: `url(${fondoregistro})`,
+    backgroundSize: 'cover',
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
+
   return (
-    <div className="hold-transition register-page">
+  <div style={RegistroContainerStyle}>
+    
+    <div className="hold-transition register-page" style={{ backgroundColor: '#F9E698' }}>
       <div className="register-box">
-        <div className="register-logo">
+        <div className="register-logo" style={{ backgroundColor: '#F9E698' }}>
+        <img src={logo} alt="Logo" className="mb-4 mx-auto d-block" />
           <Link to={"#"}>
-            <b>Bienvenido</b> Usuario
+            <b>Sing</b> Up
           </Link>
         </div>
-        <div className="card">
-          <div className="card-body register-card-body">
-            <p className="login-box-msg">Registro</p>
+        
+        <div className="card" style={{ backgroundColor: '#767FA7' }}>
+          <div className="card-body register-card-body" style={{ backgroundColor: '#FFFFFF' }}>
+            <p className="login-box-msg">Register</p>
               <form onSubmit={onSubmit}>
                 <div className="input-group mb-3">
                   <input
@@ -192,6 +206,7 @@ const Registro = () => {
         </div>
       </div>
     </div>
+  </div>
   );
 };
 
