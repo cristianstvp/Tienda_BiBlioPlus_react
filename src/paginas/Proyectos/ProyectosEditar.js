@@ -91,12 +91,12 @@ const ProyectosEditar = () => {
             <div className="register-box">
                 <div className="register-logo">
                     <Link to={"#"}>
-                        <b>Bienvenido</b> Usuario
+                        <b>Editar</b> Usuario
                     </Link>
                 </div>
                 <div className="card">
                     <div className="card-body register-card-body">
-                        <p className="login-box-msg">Registro</p>
+                        <p className="login-box-msg">Editando</p>
                         <form onSubmit={onSubmit}>
 
                             <div className="input-group mb-3">
@@ -174,7 +174,6 @@ const ProyectosEditar = () => {
                                 Ya no quiero editar
                             </Link>
                         </form>
-
                     </div>
                 </div>
             </div>
