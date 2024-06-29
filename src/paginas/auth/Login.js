@@ -49,7 +49,7 @@ const Login = () => {
         contrasena: usuario.contrasena
       }
       const response = await APIInvoke.invokePOST(`/api/usuario/login`,data);
-      if (response.Mensaje != "Datos correctos" ) {
+      if (response.Mensaje !== "Datos correctos" ) {
         const msg = "No fue posible iniciar secion. Revise los datos";
         swal({
           title: 'Inicio Fallido',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback  } from 'react';
 import { Link } from 'react-router-dom';
 import APIInvoke from '../../utils/APIInvoke';
 import swal from 'sweetalert';
@@ -11,10 +11,10 @@ const ProyectosEditar = () => {
     const { idproyecto } = useParams();
 
 
-    const cargarUsuario = async () => {
+    const cargarUsuario = useCallback (async () => {
         const response = await APIInvoke.invokeGET(`/api/usuario/lista/${idproyecto}`)
         setProyectos(response);
-    }
+    },[idproyecto]);
 
     const [proyectos, setProyectos] = useState({
         primerNombre: '',
@@ -26,7 +26,7 @@ const ProyectosEditar = () => {
 
     useEffect(() => {
         cargarUsuario();
-    }, [idproyecto])
+    }, [idproyecto,cargarUsuario])
 
     const onChange = (e) => {
         setProyectos(e.target.value);
@@ -50,7 +50,7 @@ const ProyectosEditar = () => {
         }
         const response = await APIInvoke.invokePUT(`/api/usuario/`, data);
         const idProyectoEditado = response.usuarioID;
-        if (idProyectoEditado != idproyecto) {
+        if (Number(idProyectoEditado) !== Number(idproyecto)) {
             const msg = "No fue posible Actualizar el usuario";
             swal({
                 title: 'Actualizacion Fallida',

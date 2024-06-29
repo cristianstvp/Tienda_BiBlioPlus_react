@@ -95,4 +95,5 @@ class APIInvoke {
     }
 }
 
-export default new APIInvoke()
+const apiInvokeInstance = new APIInvoke();
+export default apiInvokeInstance;

@@ -49,7 +49,7 @@ const PanelAdministracion = () => {
         e.preventDefault();
         const response = await APIInvoke.invokeDELETE(`/api/usuario/${idUsuario}`);
         console.log(response)
-        if (response.usuarioID == idUsuario) {
+        if (Number(response.usuarioID) === Number(idUsuario)) {
             const msg = "El Usuario fue borrado exitosamente"
             swal({
                 title: 'El usuario fue borrado',
@@ -90,7 +90,7 @@ const PanelAdministracion = () => {
         e.preventDefault();
         const response = await APIInvoke.invokeDELETE(`/api/autor/${idAutor}`);
         console.log(response)
-        if (response.idAutor == idAutor) {
+        if (Number(response.idAutor) === Number(idAutor)) {
             const msg = "El Autor fue borrado exitosamente"
             swal({
                 title: 'El Autor fue borrado',
@@ -130,7 +130,7 @@ const PanelAdministracion = () => {
         e.preventDefault();
         const response = await APIInvoke.invokeDELETE(`/api/libro/${idLibro}`);
         console.log(response)
-        if (response.idLibro == idLibro) {
+        if (Number(response.idLibro) === Number(idLibro)) {
             const msg = "El Autor fue borrado exitosamente"
             swal({
                 title: 'El Autor fue borrado',
@@ -170,7 +170,7 @@ const PanelAdministracion = () => {
         e.preventDefault();
         const response = await APIInvoke.invokeDELETE(`/api/prestamo/${idPrestamo}`);
         console.log(response)
-        if (response.idPrestamo == idPrestamo) {
+        if (Number(response.idPrestamo) === Number(idPrestamo)) {
             const msg = "El Autor fue borrado exitosamente"
             swal({
                 title: 'El Autor fue borrado',
