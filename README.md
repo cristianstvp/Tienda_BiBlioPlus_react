@@ -2,7 +2,13 @@
 
 Cristian Stivens Villarreal Parra - 2204132
 
-Para este proyecto es necesario tener instalado NodeJS
+Para este proyecto es necesario tener instalado `NodeJS` mediante un navegador.
+
+## `NodeJS`
+para comprovar la instalacion. En una consola de comandos escribimos:
+
+`node -v`
+`npm -v`
 
 ## Comandos basicos
 
