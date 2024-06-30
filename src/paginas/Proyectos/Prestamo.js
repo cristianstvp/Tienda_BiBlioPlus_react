@@ -14,7 +14,8 @@ const Prestamo = () => {
     const [show, setShow] = useState(false);
     const [codigoPrestamo, setCodigoPrestamo] = useState('');
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    // porque quite el boton de regresar libro esto no se usa
+    // const handleShow = () => setShow(true);
     //obtener datos usuario
     const datosUsuario = localStorage.getItem('DatosUsuario');
     const usuario = JSON.parse(datosUsuario);
@@ -276,16 +277,14 @@ const Prestamo = () => {
                         type="button"
                         className="btn btn-tool"
                         data-card-widget="collapse"
-                        title="Collapse"
-                      >
+                        title="Collapse">
                         <i className="fas fa-minus" />
                       </button>
                       <button
                         type="button"
                         className="btn btn-tool"
                         data-card-widget="remove"
-                        title="Remove"
-                      >
+                        title="Remove">
                         <i className="fas fa-times" />
                       </button>
                     </div>
@@ -346,14 +345,6 @@ const Prestamo = () => {
                     >
                       Regresar
                     </Link>
-                    &nbsp; &nbsp; &nbsp; &nbsp;
-                    <button
-                      type="submit"
-                      className="btn btn-success"
-                      onClick={handleShow}
-                    >
-                      Regresar libro
-                    </button>
                   </div>
                 </div>
               </div>

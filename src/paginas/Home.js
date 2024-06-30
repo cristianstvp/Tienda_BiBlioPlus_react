@@ -17,6 +17,9 @@ const Home = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const datosUsuario = localStorage.getItem('DatosUsuario');
+  const usuario = JSON.parse(datosUsuario);
+
   const cargarProyectos = async () => {
     const response = await APIInvoke.invokeGET("/api/libro/lista");
     console.log(response);
@@ -229,8 +232,8 @@ const Home = () => {
       <section className="content">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-lg-3 col-6">
-              <div className="small-box bg-info">
+          <div className="col-lg-3 col-6">
+          {usuario.es_admin && (<div className="small-box bg-info">
                 <div className="inner">
                   <h3>Libro</h3>
                   <p>&nbsp;</p>
@@ -245,7 +248,7 @@ const Home = () => {
                 >
                   regresar Libro <i className="fas fa-arrow-circle-right" />
                 </Link>
-              </div>
+              </div>)}
             </div>
           </div>
           <div className="row" >
