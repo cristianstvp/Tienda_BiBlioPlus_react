@@ -1,5 +1,6 @@
 # Entornos de Programacion
 
+Juan Pablo Arias Remolina - 2204251
 Cristian Stivens Villarreal Parra - 2204132
 
 Para este proyecto es necesario tener instalado `NodeJS` mediante un navegador.
